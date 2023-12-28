@@ -79,6 +79,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Gorilla'
+  /v1/gorillas/{gorilla_id}:
+    put:
+      tags:
+      - Gorilla
+      description: >
+        ゴリラの情報を更新する
+      parameters:
+        - name: gorilla_id
+          in: path
+          description: ゴリラの登録ID
+          required: true
+          schema:
+            type: number
+        - name: name
+          in: query
+          description: ゴリラの名前
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/name'
+        - name: animal_type
+          in: query
+          description: 動物種別
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/animal_type'
+        - name: weight
+          in: query
+          description: 体重
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/weight'
+        - name: height
+          in: query
+          description: 身長
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/height'
+      responses:
+        '200':
+          description: 更新
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gorilla'
 components:
   schemas:
     Gorilla:
