@@ -9,9 +9,12 @@ info:
 
 tags:
   - name: Gorilla
-    description: ゴリラに関連する情報を扱う
+    description: ゴリラに関連する情報を操作する
   - name: Staff
-    description: 牧場スタッフに関連する情報を扱う
+    description: 牧場スタッフに関連する情報を操作する
+  - name: FarmSection 
+    description: 牧場の区画に関する情報を操作する
+    
 paths:
   /v1/gorillas:
     get:
@@ -29,7 +32,7 @@ paths:
             minimum: 1
           required: true
 
-        - name: pageSize
+        - name: page_size
           in: query
           description: |
             取得したいレコードの数を設定する 
@@ -221,7 +224,111 @@ paths:
       responses:
         '200':
           description: データがあれば更新、なければ登録
+  /v1/farm_sections:
+    get:
+      tags:
+        - FarmSection
+      description: >
+        牧場の区画情報の一覧を取得する
+      parameters:
+        - name: page
+          in: query
+          description: |
+            取得したいページの位置を設定する
+          schema:
+            type: number
+            minimum: 1
+          required: true
 
+        - name: page_size
+          in: query
+          description: |
+            取得したいレコードの数を設定する 
+          schema:
+            type: number
+            minimum: 1
+          required: true
+      responses:
+        '200':
+          description: 取得
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gorilla'
+    post:
+      tags:
+      - FarmSection
+      description: >
+        牧場の区画情報を登録する
+      requestBody:
+        description: 牧場の区画情報を登録する
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "name"
+                - "capacity"
+              properties:
+                name:
+                  $ref: '#/components/schemas/FarmSection/properties/name'
+                capacity:
+                  $ref: '#/components/schemas/FarmSection/properties/capacity'
+      responses:
+        '201':
+          description: 登録
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmSection'
+  /v1/farm_sections/{farm_section_id}:
+    put:
+      tags:
+      - FarmSection
+      description: >
+        牧場の区画情報を更新する
+      parameters:
+        - name: farm_section_id
+          in: path
+          description: 更新する区画のID
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: 区画を更新する
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  $ref: '#/components/schemas/FarmSection/properties/name'
+                capacity:
+                  $ref: '#/components/schemas/FarmSection/properties/capacity'
+      responses:
+        '200':
+          description: 更新
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmSection'
+    delete:
+      tags:
+      - FarmSection
+      description: >
+        牧場の区画情報を削除する
+      parameters:
+        - name: farm_section_id
+          in: path
+          description: 削除する区画のID
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: 削除
 components:
   schemas:
     Gorilla:
@@ -261,7 +368,7 @@ components:
           type: integer
           format: int64
           example: 10
-        username:
+        name:
           type: string
           example: theUser
         email:
@@ -273,6 +380,19 @@ components:
         phone:
           type: string
           example: '12345'
+    FarmSection:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: A-area
+        capacity:
+          type: number
+          example: 100
     Error:
       type: "object"
       properties:
