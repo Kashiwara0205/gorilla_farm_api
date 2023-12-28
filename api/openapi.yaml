@@ -119,6 +119,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Gorilla'
+    delete:
+      tags:
+      - Gorilla
+      description: >
+        ゴリラの情報を削除する
+      parameters:
+        - name: gorilla_id
+          in: path
+          description: ゴリラの登録ID
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: 削除
 components:
   schemas:
     Gorilla:
