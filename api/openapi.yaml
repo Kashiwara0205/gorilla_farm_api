@@ -11,7 +11,7 @@ tags:
   - name: Gorilla
     description: ゴリラに関連する情報を扱う
 paths:
-  /gorillas:
+  /v1/gorillas:
     get:
       tags:
         - Gorilla
@@ -35,7 +35,6 @@ paths:
             type: number
             minimum: 1
           required: true
-          
       responses:
         '200':
           description: 取得
@@ -45,6 +44,41 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Gorilla'
+    post:
+      tags:
+      - Gorilla
+      description: >
+        新規にゴリラを登録する
+      parameters:
+        - name: name
+          in: query
+          description: ゴリラの名前
+          required: true
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/name'
+        - name: animal_type
+          in: query
+          description: 動物種別
+          required: true
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/animal_type'
+        - name: weight
+          in: query
+          description: 体重
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/weight'
+        - name: height
+          in: query
+          description: 身長
+          schema:
+            $ref: '#/components/schemas/Gorilla/properties/height'
+      responses:
+        '201':
+          description: 登録
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gorilla'
 components:
   schemas:
     Gorilla:
@@ -69,6 +103,14 @@ components:
             - "CrossRiverGorilla"
             - "MountainGorilla"
             - "EasternLowlandGorilla"
+        weight:
+          type: "integer"
+          format: "int64"
+          example: 100
+        height:
+          type: "integer"
+          format: "int64"
+          example: 200
     Error:
       type: "object"
       properties:
