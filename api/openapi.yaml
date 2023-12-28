@@ -52,6 +52,8 @@ paths:
     post:
       tags:
       - Gorilla
+      security:
+        - api_key: [] 
       description: >
         新規にゴリラを登録する
       requestBody:
@@ -83,6 +85,8 @@ paths:
     put:
       tags:
       - Gorilla
+      security:
+        - api_key: [] 
       description: >
         ゴリラの情報を更新する
       parameters:
@@ -117,6 +121,8 @@ paths:
     delete:
       tags:
       - Gorilla
+      security:
+        - api_key: [] 
       description: >
         ゴリラの情報を削除する
       parameters:
@@ -134,6 +140,8 @@ paths:
     post:
       tags:
         - Staff
+      security:
+        - api_key: [] 
       summary: 牧場スタッフを新規追加する
       description: 牧場システムにログインするユーザーを登録する
       requestBody:
@@ -162,6 +170,8 @@ paths:
     put:
       tags:
         - Staff
+      security:
+        - api_key: [] 
       summary: 牧場スタッフを更新する
       parameters:
         - name: staff_id
@@ -186,6 +196,8 @@ paths:
     delete:
       tags:
         - Staff
+      security:
+        - api_key: [] 
       summary: 牧場スタッフを削除する
       parameters:
         - name: staff_id
@@ -201,6 +213,8 @@ paths:
     put:
       tags:
         - Staff
+      security:
+        - api_key: [] 
       summary: 担当するゴリラ情報の保存
       description: 担当するゴリラを追加・更新する
       parameters:
@@ -228,6 +242,8 @@ paths:
     get:
       tags:
         - FarmSection
+      security:
+        - api_key: [] 
       description: >
         牧場の区画情報の一覧を取得する
       parameters:
@@ -260,6 +276,8 @@ paths:
     post:
       tags:
       - FarmSection
+      security:
+        - api_key: [] 
       description: >
         牧場の区画情報を登録する
       requestBody:
@@ -287,6 +305,8 @@ paths:
     put:
       tags:
       - FarmSection
+      security:
+        - api_key: [] 
       description: >
         牧場の区画情報を更新する
       parameters:
@@ -317,6 +337,8 @@ paths:
     delete:
       tags:
       - FarmSection
+      security:
+        - api_key: [] 
       description: >
         牧場の区画情報を削除する
       parameters:
@@ -334,6 +356,8 @@ paths:
     put:
       tags:
         - FarmSection
+      security:
+        - api_key: [] 
       summary: 区画に管理するゴリラを追加・更新する
       description: 区画に管理するゴリラを追加・更新する
       parameters:
@@ -452,3 +476,9 @@ components:
         message:
           type: "string"
           description: エラーの原因
+
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
