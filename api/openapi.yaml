@@ -1,56 +1,57 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Sample API
-  description: >-
-    A sample API that uses a sample-site as an example to demonstrate features in
-    the OpenAPI 3.0 specification
-servers:
-  - url: 'http://localhost:8003'
+  title: Gorilla Farm Api
+  description: |
+    ゴリラを放牧している牧場のAPI
+
+    ゴリラの飼育情報や飼育者の情報を取得したり更新する
+
+tags:
+  - name: Gorilla
+    description: ゴリラに関連する情報を扱う
 paths:
-  /users:
+  /gorillas:
     get:
+      tags:
+        - Gorilla
       description: >
-        Returns all users
-      operationId: findUsers
+        飼育しているゴリラの一覧を取得する
       parameters:
-        - name: tags
+        - name: page
           in: query
-          description: tags to filter by
-          required: false
-          style: form
+          description: |
+            取得したいページの位置を設定する
           schema:
-            type: array
-            items:
-              type: string
-        - name: limit
+            type: number
+            minimum: 1
+          required: true
+
+        - name: pageSize
           in: query
-          description: maximum number of results to return
-          required: false
+          description: |
+            取得したいレコードの数を設定する 
           schema:
-            type: integer
-            format: int32
+            type: number
+            minimum: 1
+          required: true
+          
       responses:
         '200':
-          description: user response
+          description: 取得
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/Gorilla'
 components:
   schemas:
-    User:
+    Gorilla:
       type: "object"
       required:
         - "name"
+        - "animal_type"
       properties:
         id:
           type: "integer"
@@ -58,24 +59,44 @@ components:
           example: 100
         name:
           type: "string"
-          example: "Taro"
-        status:
+          description: "ゴリラの名前"
+          example: "太郎"
+        animal_type:
           type: "string"
-          description: "user status"
+          description: "ゴリラの種別"
           enum:
-            - "pending"
-            - "active"
-            - "inactive"
+            - "WesternLowlandGorilla"
+            - "CrossRiverGorilla"
+            - "MountainGorilla"
+            - "EasternLowlandGorilla"
     Error:
       type: "object"
       properties:
         code:
           type: "integer"
           format: "int32"
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
         type:
           type: "string"
+          enum:
+            - bad_request
+            - unauthorized_token
+            - forbidden
+            - not_found
+            - internal_server_error
+            - too_many_requests
+            - plan_limit_exceeded
+            - non_deletable_resource
+            - service_maintenance
         message:
           type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+          description: エラーの原因
