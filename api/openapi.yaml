@@ -51,29 +51,24 @@ paths:
       - Gorilla
       description: >
         新規にゴリラを登録する
-      parameters:
-        - name: name
-          in: query
-          description: ゴリラの名前
-          required: true
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/name'
-        - name: animal_type
-          in: query
-          description: 動物種別
-          required: true
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/animal_type'
-        - name: weight
-          in: query
-          description: 体重
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/weight'
-        - name: height
-          in: query
-          description: 身長
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/height'
+      requestBody:
+        description: 新規にゴリラを登録する
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "name"
+                - "animal_type"
+              properties:
+                name:
+                  $ref: '#/components/schemas/Gorilla/properties/name'
+                animal_type:
+                  $ref: '#/components/schemas/Gorilla/properties/animal_type'
+                weight:
+                  $ref: '#/components/schemas/Gorilla/properties/weight'
+                height:
+                  $ref: '#/components/schemas/Gorilla/properties/height'
       responses:
         '201':
           description: 登録
@@ -90,30 +85,25 @@ paths:
       parameters:
         - name: gorilla_id
           in: path
-          description: ゴリラの登録ID
+          description: 更新するゴリラのID
           required: true
           schema:
             type: number
-        - name: name
-          in: query
-          description: ゴリラの名前
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/name'
-        - name: animal_type
-          in: query
-          description: 動物種別
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/animal_type'
-        - name: weight
-          in: query
-          description: 体重
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/weight'
-        - name: height
-          in: query
-          description: 身長
-          schema:
-            $ref: '#/components/schemas/Gorilla/properties/height'
+      requestBody:
+        description: ゴリラを更新する
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  $ref: '#/components/schemas/Gorilla/properties/name'
+                animal_type:
+                  $ref: '#/components/schemas/Gorilla/properties/animal_type'
+                weight:
+                  $ref: '#/components/schemas/Gorilla/properties/weight'
+                height:
+                  $ref: '#/components/schemas/Gorilla/properties/height'
       responses:
         '200':
           description: 更新
@@ -129,7 +119,7 @@ paths:
       parameters:
         - name: gorilla_id
           in: path
-          description: ゴリラの登録ID
+          description: 削除するゴリラのID
           required: true
           schema:
             type: number
@@ -173,7 +163,7 @@ paths:
       parameters:
         - name: staff_id
           in: path
-          description: name that need to be deleted
+          description: 更新するスタッフのID
           required: true
           schema:
             type: number
@@ -197,13 +187,40 @@ paths:
       parameters:
         - name: staff_id
           in: path
-          description: The name that needs to be deleted
+          description: 削除するスタッフのID
           required: true
           schema:
             type: number
       responses:
         '204':
           description: 削除
+  /v1/staffs/{staff_id}/gorilla_in_charge:
+    put:
+      tags:
+        - Staff
+      summary: 担当するゴリラ情報の保存
+      description: 担当するゴリラを追加・更新する
+      parameters:
+        - name: staff_id
+          in: path
+          description: 担当するゴリラを追加するスタッフのID
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: 担当するゴリラを追加・更新する
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gorilla_ids:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: データがあれば更新、なければ登録
 
 components:
   schemas:
