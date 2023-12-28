@@ -329,6 +329,34 @@ paths:
       responses:
         '204':
           description: 削除
+
+  /v1/farm_sections/{farm_section_id}/put_gorilla:
+    put:
+      tags:
+        - FarmSection
+      summary: 区画に管理するゴリラを追加・更新する
+      description: 区画に管理するゴリラを追加・更新する
+      parameters:
+        - name: farm_section_id
+          in: path
+          description: 区画ID
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: 区画に管理するゴリラを追加・更新する
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gorilla_ids:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: データがあれば更新、なければ登録
 components:
   schemas:
     Gorilla:
