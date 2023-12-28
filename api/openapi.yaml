@@ -352,7 +352,7 @@ paths:
         '204':
           description: 削除
 
-  /v1/farm_sections/{farm_section_id}/put_gorilla:
+  /v1/farm_sections/{farm_section_id}/put_gorillas:
     put:
       tags:
         - FarmSection
